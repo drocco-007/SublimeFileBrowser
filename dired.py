@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+
+from fnmatch import fnmatch
+
 import sublime
 from sublime import Region
 from sublime_plugin import WindowCommand, TextCommand
@@ -198,6 +201,14 @@ class DiredRefreshCommand(TextCommand, DiredBaseCommand):
             self.vcs_thread.start()
             self.continue_refreshing(edit, path, names, goto)
 
+    def is_hidden(self, filename):
+        tests = self.view.settings().get('dired_hidden_files_patterns', ['.*'])
+
+        if isinstance(tests, str):
+            tests = [tests]
+
+        return any(fnmatch(filename, pattern) for pattern in tests)
+
     def continue_refreshing(self, edit, path, names, goto=None):
         status = status = u" 𝌆 [?: Help] "
         path_in_project = any(folder == self.path[:-1] for folder in self.view.window().folders())
@@ -208,9 +219,9 @@ class DiredRefreshCommand(TextCommand, DiredBaseCommand):
 
         if not show_hidden:
             if sublime.platform() == 'windows':
-                names = [name for name in names if not (name.startswith('.') or  has_hidden_attribute(join(path, name)))]
+                names = [name for name in names if not (self.is_hidden(name) or has_hidden_attribute(join(path, name)))]
             else:
-                names = [name for name in names if not name.startswith('.')]
+                names = [name for name in names if not self.is_hidden(name)]
         sort_nicely(names)
 
         f = []

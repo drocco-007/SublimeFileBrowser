@@ -7,17 +7,17 @@ You can also use it as a sidebar that you can put on right or left side
 ![SublimeFileBrowser Screenshot2](http://cl.ly/image/0Z2U062k3l3p/Screen%20Shot%202014-01-24%20at%2011.26.53.png)
 
 ## Installation
-You can install via [Sublime Package Control](http://wbond.net/sublime_packages/package_control)  
+You can install via [Sublime Package Control](http://wbond.net/sublime_packages/package_control)
 Or you can clone this repo into your Sublime Text Packages folder and rename the folder to `FileBrowser`
 
 ## Commands and Keybindings
 This plugin does not add any keybindings for opening a new tab in "Browse mode". Although, the commands to do that are available in *command pallete* but I recommend binding <kbd>F1</kbd> to open the current file folder in "Browse mode" with this peice of code (that you can add it to your `Key Bindings - User` file):
 
 ``` json
-{ 
-  "keys": ["f1"], 
-  "command": "dired", 
-  "args": { "immediate": true } 
+{
+  "keys": ["f1"],
+  "command": "dired",
+  "args": { "immediate": true }
 }
 ```
 
@@ -89,7 +89,7 @@ The rename command puts the view into **rename mode**. The view is made editable
 After you are done with editing press <kbd>enter</kbd> to commit your changes or <kbd>escape</kbd> to cancel them.
 
 ### Open in new window
-Selecting a couple of files and/or directories (either by marking them or using the noraml multiple cursor feature of sublime) and pressing <kbd>w</kbd> will open them in a new SublimeText window. 
+Selecting a couple of files and/or directories (either by marking them or using the normal multiple cursor feature of sublime) and pressing <kbd>w</kbd> will open them in a new SublimeText window.
 
 ### Close FileBrowser when files have been opened
 Add the following code in your user key bindings file:
@@ -109,9 +109,9 @@ Add the following code in your user key bindings file:
 Add the following code in your user key bindings file:
 
 ``` json
-{ 
-  "keys": ["f1"], 
-  "command": "dired", 
+{
+  "keys": ["f1"],
+  "command": "dired",
   "args": {
     "immediate": true,
     "single_pane":true
@@ -128,8 +128,34 @@ If you don’t like `⠤` symbol and want to hide it (then you should use keyboa
 }
 ```
 
+### Hidden files
+
+By default, FileBrowser shows all files in the browsed directory. Pressing
+<kbd>h</kbd> toggles the display of hidden files. For all platforms, any file
+that starts with a `.` is considered hidden; additionally, on Windows, files
+that have the hidden attribute set are also considered hidden.
+
+To set FileBrowser to hide hidden files by default, add the following to
+your settings:
+
+``` json
+{
+  "dired_show_hidden_files": false,
+}
+```
+
+You can also customize the patterns used to determine if a file should be
+hidden with the `dired_hidden_files_patterns` setting, which should be either a
+single pattern string or a list of such patterns:
+
+``` json
+{
+  "dired_hidden_files_patterns": [".*", "__pycache__", "*.pyc"],
+}
+```
+
 ### Git integration
-In case `git status` returns a colorable output in current folder, the modified and untracked files will be designated by orange and green outlines respectively.  
+In case `git status` returns a colorable output in current folder, the modified and untracked files will be designated by orange and green outlines respectively.
 If Git is not presented in your `PATH` you may set `git_path` setting (see example in default settings file).
 
 ## Changing color scheme
